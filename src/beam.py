@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.integrate import trapezoid
 from scipy.interpolate import interp1d
 from typing import Tuple
 from .section import RCSection
@@ -109,7 +110,7 @@ class PushoverAnalysis:
                                bounds_error=False,
                                fill_value=(eps0_c0[0], eps0_c0[-1]))
         eps0_init = interp0_eps(M_sw)
-        axial_disp_init = np.trapz(eps0_init, x)
+        axial_disp_init = trapezoid(eps0_init, x)
 
         # Record initial step at P=0
         P_vals.append(0.0)
@@ -186,7 +187,7 @@ class PushoverAnalysis:
                 break
 
             eps0_at_x = interp_M_eps0(M_total)
-            axial_disp = np.trapz(eps0_at_x, x)
+            axial_disp = trapezoid(eps0_at_x, x)
 
             v = v_new
             P_vals.append(P)
